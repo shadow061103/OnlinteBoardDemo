@@ -1,0 +1,22 @@
+﻿@model OnlinteBoardDemo.Model.IndexViewModel
+
+@{
+    ViewBag.Title = "Intro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Intro</h2>
+
+<div>
+    <h4>介紹</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        @ViewBag.Intro
+
+
+    </dl>
+</div>
+<p>
+   
+    @Html.ActionLink("回首頁", "Index")
+</p>

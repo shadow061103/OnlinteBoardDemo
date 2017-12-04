@@ -1,0 +1,155 @@
+﻿@model OnlinteBoardDemo.Model.IndexViewModel
+@using OnlinteBoardDemo.Model
+@{
+    ViewBag.Title = "新北市運動地圖";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts {
+
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+
+}
+<h2>Index</h2>
+
+
+<h3>新北市運動地圖查詢</h3>
+@using (Html.BeginForm("Index", "Default", FormMethod.Post))
+{
+    List<SportsMap> result = (List<SportsMap>)ViewBag.QueryList;
+    <fieldset>
+        @Html.LabelFor(c=>c.KeyWord)
+        @Html.TextBoxFor(c=>c.KeyWord)
+        @Html.ValidationMessageFor(c=>c.KeyWord)
+
+        <input type="submit" value="查詢" />
+
+    </fieldset>
+
+
+
+
+
+        <div id="grid">
+            @if (result != null)
+            {
+                if (result.Count > 0)
+                {
+                    var grid = new WebGrid(source: result, canPage: true, ajaxUpdateContainerId: "AJAXwebGrid",
+                       rowsPerPage: 10);
+                    grid.Pager(WebGridPagerModes.NextPrevious);
+                    @grid.GetHtml(
+                      htmlAttributes: new { id = "AJAXwebGrid" },
+                      tableStyle: "webgrid",
+                      headerStyle: "webgrid-header",
+                      footerStyle: "webgrid-footer",
+                      alternatingRowStyle: "webgrid-alternating-row",
+                      selectedRowStyle: "webgrid-selected-row",
+                      rowStyle: "webgrid-row-style",
+                      columns: grid.Columns(
+
+                          grid.Column("G_title", "標題", null, null, false),
+
+                          grid.Column("G_ContactUnit", "聯絡單位", null, null, false),
+                          grid.Column(header: "介紹", canSort: false, format: c =>
+                          {
+
+                              return Html.ActionLink("查看", "Intro", "Default", new { Sn = c.G_sn }, new { @class = "hyperlink" });
+
+                          })
+
+
+
+                          )
+                              )
+
+
+
+                }
+                else
+                {
+                    <div style="font-size: large; color: #FF0000; text-align: center">查無資料!</div>
+                }
+
+
+            }
+
+
+        </div>
+        }
+
+
+
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $("a.button").colorbox({
+                    iframe: true,
+                    'width': '95%',
+                    'height': '95%',
+                    'opacity': 0.78,
+                    onStart: function () {
+                        $.blockUI();
+                    },
+                    onComplete: function () {
+                        $.unblockUI();
+                    },
+                    onCleanup: function () {
+                        return window.location.reload();
+                    }
+                });
+
+                $("a.hyperlink").colorbox({
+                    iframe: true,
+                    'width': '95%',
+                    'height': '95%',
+                    'opacity': 0.78,
+                    onCleanup: function () {
+                        return window.location.reload();
+                    }
+                });
+                //避免 disabled 的 hyperlink 被觸發， chrome,firefox 需要這段處理
+                $("a").click(function () {
+                    if ($(this).attr("disabled") == "disabled") {
+
+                        event.preventDefault();
+                    }
+
+                });
+            });
+            $(document).ajaxComplete(function () {
+                $("a.button").colorbox({
+                    iframe: true,
+                    'width': '95%',
+                    'height': '95%',
+                    'opacity': 0.78,
+                    onStart: function () {
+                        $.blockUI();
+                    },
+                    onComplete: function () {
+                        $.unblockUI();
+                    },
+                    onCleanup: function () {
+                        return window.location.reload();
+                    }
+                });
+
+                $("a.hyperlink").colorbox({
+                    iframe: true,
+                    'width': '95%',
+                    'height': '95%',
+                    'opacity': 0.78,
+                    onCleanup: function () {
+                        return window.location.reload();
+                    }
+                });
+                $("a").click(function () {
+                    if ($(this).attr("disabled") == "disabled") {
+
+                        event.preventDefault();
+                    }
+
+                });
+            });
+        </script>

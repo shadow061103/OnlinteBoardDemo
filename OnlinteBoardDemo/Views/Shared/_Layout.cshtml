@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")  @*jquery一定要放在這兩個前面*@
+
+    <script src="@Url.Content("~/Scripts/jquery.blockUI.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.colorbox-min.js")"></script>
+
+    @Scripts.Render("~/bundles/multiselect")
+    <link href="@Url.Content("~/Content/bootstrap-select.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/bootstrap-select.js")"></script>
+
+
+
+    <style type="text/css">
+        body {
+            font-size: 25px;
+        }
+
+        .bootstrap-select button {
+            background: none !important;
+        }
+    </style>
+    @RenderSection("css", false)
+</head>
+<body>
+
+    <div class="container body-content">
+        @RenderBody()
+
+
+    </div>
+
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
